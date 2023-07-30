@@ -1,1 +1,320 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+// Function prototypes
+void title();
+void nowshowing();
+void addnowshowing();
+void nowshowingchoice();
+void addupcoming();
+void choice();
+void upcoming();
+void upcomingchoice();
+void bookticket();
+void exitpg();
+void adminpanel();
+void adminchoice();
+void back();
+
+// File pointers
+FILE *fp3; // For "showing.txt" file (current movies)
+FILE *fp4; // For "upcoming.txt" file (upcoming movies)
+FILE *fp1; // For appending new movies to "showing.txt"
+FILE *fp2; // For appending new movies to "upcoming.txt"
+
+int main()
+{
+    title();
+    nowshowing();
+    choice();
+}
+
+void title()
+{
+    printf("\n\n\t\t\t\t------------ WELCOME TO PVR CINEMAS  ------------\n");
+}
+
+void choice()
+{
+    int c;
+    printf("\n\n");
+    printf("press <1> NOW SHOWING \n");
+    printf("press <2> UPCOMING MOVIES\n");
+    printf("press <3> BOOK TICKET \n");
+    printf("press <4> ADMIN PANEL \n");
+    printf("press <5> EXIT\n");
+    printf("Enter number of your choice:");
+    scanf("%d", &c);
+    printf("\n");
+    switch (c)
+    {
+    case 1:
+        nowshowing();
+        break;
+    case 2:
+        upcoming();
+        break;
+    case 3:
+        bookticket();
+        break;
+    case 4:
+        adminpanel();
+        break;
+    case 5:
+        exitpg();
+        break;
+
+    default:
+        printf("\nWRONG CHOICE!! ENTER RIGHT CHOICE");
+        choice();
+        break;
+    }
+}
+//This defined function hepls the admin to add current running movies from admin panel.
+void addnowshowing()
+{
+    char mname[100];
+    fp3 = fopen("showing.txt", "a"); // Open file in append mode to add new movies
+    printf("ENTER THE MOVIE NAME :\n");
+    printf("FORMAT : NAME (LANGUAGE)");
+    scanf("%s", mname);
+    fprintf(fp3, "\n%s", mname); // Append the new movie to the file
+    fclose(fp3);
+    nowshowingchoice();
+}
+
+void nowshowingchoice()
+{
+    int c;
+    printf("\n\n press <1> ADD ANOTHER MOVIE");
+    printf("\npress <2> BACK TO ADMIN PANEL");
+    printf("\npress <3> BACK TO MAIN MENU");
+    printf("\npress <4> TO EXIT!!");
+    printf("\nENTER YOUR CHOICE:");
+    scanf("%d", &c);
+    switch (c)
+    {
+    case 1:
+        addnowshowing();
+        break;
+    case 2:
+        adminpanel();
+        break;
+    case 3:
+        choice();
+        break;
+    case 4:
+        exitpg();
+        break;
+    default:
+        printf("\nWRONG CHOICE!! ENTER RIGHT CHOICE");
+        nowshowingchoice();
+        break;
+    }
+}
+//This defined function helps the user to see the current running shows in the theater
+void nowshowing()
+{
+    char name[1000];
+    int k = 1;
+    printf("\n\n\t****** NOW SHOWING ******\n\n");
+    fp4 = fopen("showing.txt", "r"); // Open file in read mode to display current movies
+    while (!feof(fp4))
+    {
+        fscanf(fp4, "%s", name);
+        printf("\n%d.%s\n", k, name);
+        k = k + 1;
+    }
+    fclose(fp4);
+    choice();
+}
+//This defined function hepls the admin to add upcoming movies from admin panel.
+void addupcoming()
+{
+    char mname[100];
+    fp1 = fopen("upcoming.txt", "a"); // Open file in append mode to add new upcoming movies
+    printf("ENTER THE MOVIE NAME :\n");
+    printf("FORMAT : NAME (LANGUAGE)");
+    scanf("%s", mname);
+    fprintf(fp1, "\n%s", mname); // Append the new movie to the file
+    fclose(fp1);
+    upcomingchoice();
+}
+
+void upcomingchoice()
+{
+    int c;
+    printf("\n\n press <1> ADD ANOTHER MOVIE");
+    printf("\npress <2> BACK TO ADMIN PANEL");
+    printf("\npress <3> BACK TO MAIN MENU");
+    printf("\npress <4> TO EXIT!!");
+    printf("\nENTER YOUR CHOICE:");
+    scanf("%d", &c);
+    switch (c)
+    {
+    case 1:
+        addupcoming();
+        break;
+    case 2:
+        adminpanel();
+        break;
+    case 3:
+        choice();
+        break;
+    case 4:
+        exitpg();
+        break;
+    default:
+        printf("\nWRONG CHOICE!! ENTER RIGHT CHOICE");
+        upcomingchoice();
+        break;
+    }
+}
+//This defined function helps the user to see the upcoming movies in the theater.
+void upcoming()
+{
+    int k = 0;
+    char name[1000];
+    printf("\t****** UPCOMING MOVIES ******\n\n");
+    fp2 = fopen("upcoming.txt", "r"); // Open file in read mode to display upcoming movies
+    while (!feof(fp2))
+    {
+        fscanf(fp2, "%s", name);
+        printf("\n%d.%s\n", k + 1, name);
+        k = k + 1;
+    }
+    fclose(fp2);
+    back();
+}
+//This defined function helps the user to return back to mainmenu/exit after seeing the upcoming movie section
+void back()
+{
+    int c;
+    printf("\n\n press <1> BACK TO MAIN MENU !!");
+    printf("\npress <2> EXIT FROM PROGRAM !!");
+    scanf("%d", &c);
+    if (c == 1)
+    {
+        choice();
+    }
+    else if (c == 2)
+    {
+        exitpg();
+    }
+    else
+    {
+        printf("WRONG CHOICE !! ENTER A PROPER VALUE ::");
+        back();
+    }
+}
+//This is the admin panel where the admin have acces to the program to edit upcomming movies and nowshowing movies
+void adminpanel()
+{
+    int c, p;
+    printf("ENTER PASSWORD ::");
+    scanf("%d", &p);
+    if (p == 1234) // Hard-coded password (not recommended in real applications)
+    {
+        printf("\nWECOME BACK ADMIN...");
+        printf("\n\npress <1> to ADD NOWSHOWING MOVIES ");
+        printf("\npress <2> to ADD UPCOMING MOVIES");
+        printf("\npress <3> to MAIN MENU");
+        printf("\npress <4> to EXIT");
+        printf("\nENTER YOUR CHOICE:");
+        scanf("%d", &c);
+        switch (c)
+        {
+        case 1:
+            addnowshowing();
+            break;
+        case 2:
+            addupcoming();
+            break;
+        case 3:
+            choice();
+            break;
+        case 4:
+            exitpg();
+            break;
+        default:
+            printf("\nWRONG CHOICE!! ENTER RIGHT CHOICE :");
+            adminchoice();
+            break;
+        }
+    }
+    else
+    {
+        printf(" \n WRONG PASSWORD!!!!!!!\n");
+        adminpanel();
+    }
+}
+//This defined function gives the admin to choose the options to redirect it to the reqired function domains.
+void adminchoice()
+{
+    int c;
+    scanf("%d", &c);
+    switch (c)
+    {
+    case 1:
+        addnowshowing();
+        break;
+    case 2:
+        addupcoming();
+        break;
+    case 3:
+        choice();
+        break;
+    case 4:
+        exitpg();
+        break;
+    default:
+        printf("\nWRONG CHOICE!! ENTER RIGHT CHOICE :");
+        adminchoice();
+        break;
+    }
+}
+//This defined function give acces to the user to book tickets
+void bookticket()
+{
+    printf("\n*************TICKET BOOKING***************\n");
+    char name[1000];
+    int n, e, k = 1, flag = 0;
+    printf("\n\n\t****** NOW SHOWING ******\n\n");
+    fp4 = fopen("showing.txt", "r");
+    while (!feof(fp4))
+    {
+        fscanf(fp4, "%s", name);
+        printf("\n%d.%s\n", k, name);
+        k = k + 1;
+    }
+    fclose(fp4);
+    k = 0;
+    printf("\n\nSELECT THE MOVIE NUMBER::");
+    scanf("%d", &n);
+    fp4 = fopen("showing.txt", "r");
+    while (!feof(fp4))
+    {
+        fscanf(fp4, "%s", name);
+        if (k + 1 == n)
+        {
+            flag = 1;
+            printf("\nHOW MANY TICKETS YOU WANT ::");
+            scanf("%d", &e);
+            printf("\n\n\t\tTICKET BOOKED SUCCESSFULLY ...\n\n\t\tMOVIE NAME = %s\n \t\tNUMBER OF TICKETS =%d\n", name, e);
+        }
+        k = k + 1;
+    }
+    if (flag == 0)
+    {
+        printf("\n!!!!WRONG CHOICE!!!!\n");
+        choice();
+    }
+    fclose(fp4);
+}
+//This defined function helps the user to exit from the entire program.
+void exitpg()
+{
+    printf("THANK YOU FOR VISITING OUR PAGE (._.)");
+    abort();
+}

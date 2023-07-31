@@ -1,3 +1,7 @@
+//To work this code first in your pc you have to download and save upcoming and showing files which we provided.
+//You can also add the upcoming and nowshowing movie list through admin panel which is secuerd with a passkey and also you can edit this list in the upcoming and nowshowing files we provided which automaticaly edits the program.
+//The pass key of the admin panel is=1234.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

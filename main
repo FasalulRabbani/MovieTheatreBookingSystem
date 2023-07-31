@@ -23,6 +23,7 @@ FILE *fp4; // For "upcoming.txt" file (upcoming movies)
 FILE *fp1; // For appending new movies to "showing.txt"
 FILE *fp2; // For appending new movies to "upcoming.txt"
 
+int h=120;
 int main()
 {
     title();
@@ -279,7 +280,8 @@ void bookticket()
 {
     printf("\n*************TICKET BOOKING***************\n");
     char name[1000];
-    int n, e, k = 1, flag = 0;
+    int n,f,e,k = 1, flag = 0;
+    char g;
     printf("\n\n\t****** NOW SHOWING ******\n\n");
     fp4 = fopen("showing.txt", "r");
     while (!feof(fp4))
@@ -299,10 +301,35 @@ void bookticket()
         if (k + 1 == n)
         {
             flag = 1;
-            printf("\nHOW MANY TICKETS YOU WANT ::");
+            if (h<=0)
+            {
+            	printf("NO SEATS LEFT!! BACK TO MAIN MENU!!");
+            	choice();
+			}
+            printf("\nAVAILABLE AMOUNT OF SEAT = %d",h);
+            printf("\nHOW MANY TICKETS YOU WANT ( Rs 150 for 1 ticket)(maximum limit is 10)::");
             scanf("%d", &e);
-            printf("\n\n\t\tTICKET BOOKED SUCCESSFULLY ...\n\n\t\tMOVIE NAME = %s\n \t\tNUMBER OF TICKETS =%d\n", name, e);
-        }
+            if (e>10)
+            {
+            	printf("\n INVALID TICKET LIMIT !! BACK TO TICKET BOOKING!!\n");
+            	bookticket();
+			}
+			else{
+            printf("\nHERE ARE THE AVAILABLE TIME SLOTS \n 1. 9 AM\n 2. 2 PM\n 3. 9PM\n");
+            printf("\nENTER NUMBER OF YOUR TIME CHOICE ::");   
+            scanf("%d",&f);
+            if(f>3)
+            {
+            	printf("\n!!!WRONG TIME CHOICE!!!");
+            	choice();
+			}
+            else{
+			printf("\n\n\t\tTICKET BOOKED SUCCESSFULLY ...\n\n\t\tMOVIE NAME = %s\n \t\tNUMBER OF TICKETS =%d\n", name, e);
+            printf("\t\tTOTAL AMOUNT PAID= %d\n",e*150);
+            h=(h-e);
+    		choice();
+        
+		}}}
         k = k + 1;
     }
     if (flag == 0)
